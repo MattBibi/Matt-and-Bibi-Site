@@ -2,6 +2,8 @@ import { MetadataRoute } from "next";
 import { getAllEpisodes } from "@/lib/api";
 import { SITE_URL } from "@/lib/constants";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const episodes = getAllEpisodes();
 
