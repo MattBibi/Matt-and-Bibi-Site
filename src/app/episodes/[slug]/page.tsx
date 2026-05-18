@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllEpisodes, getEpisodeBySlug } from "@/lib/api";
-import { PODCAST_NAME } from "@/lib/constants";
+import { PODCAST_NAME, SITE_URL } from "@/lib/constants";
 import markdownToHtml from "@/lib/markdownToHtml";
 import Container from "@/app/_components/container";
 import { PostBody } from "@/app/_components/post-body";
 import { VideoEmbed } from "@/app/_components/video-embed";
 import DateFormatter from "@/app/_components/date-formatter";
 import Link from "next/link";
-import { getYouTubeEmbedUrl } from "@/lib/youtube";
+import { getYouTubeEmbedUrl, getYouTubeThumbnail } from "@/lib/youtube";
 
 export default async function EpisodePage(props: Params) {
   const params = await props.params;
@@ -21,9 +21,38 @@ export default async function EpisodePage(props: Params) {
   const content = await markdownToHtml(episode.content || "");
   const embedUrl = getYouTubeEmbedUrl(episode.videoUrl);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    name: episode.title,
+    episodeNumber: episode.episodeNumber,
+    description: episode.description,
+    datePublished: episode.date,
+    url: `${SITE_URL}/episodes/${episode.slug}`,
+    partOfSeries: {
+      "@type": "PodcastSeries",
+      name: PODCAST_NAME,
+      url: SITE_URL,
+    },
+    ...(episode.videoUrl && {
+      video: {
+        "@type": "VideoObject",
+        name: episode.title,
+        description: episode.description,
+        embedUrl: embedUrl,
+        thumbnailUrl:
+          episode.thumbnail || getYouTubeThumbnail(episode.videoUrl),
+      },
+    }),
+  };
+
   return (
     <main>
       <Container>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <div className="mb-8 mt-8">
           <Link
             href="/"
@@ -35,7 +64,8 @@ export default async function EpisodePage(props: Params) {
         <article className="mb-32">
           <div className="mb-6">
             <p className="text-sm font-semibold uppercase tracking-widest text-vamos-yellow mb-2">
-              Ep. {episode.episodeNumber}
+              {episode.comingSoon ? "Coming Soon · " : ""}Ep.{" "}
+              {episode.episodeNumber}
             </p>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tighter leading-tight mb-4">
               {episode.title}
@@ -56,13 +86,25 @@ export default async function EpisodePage(props: Params) {
               </div>
             )}
           </div>
-          <div className="mb-10">
-            <VideoEmbed videoUrl={embedUrl} title={episode.title} />
-          </div>
+          {episode.comingSoon ? (
+            <div className="mb-10 w-full aspect-video bg-vamos-navy dark:bg-slate-800 flex flex-col items-center justify-center gap-4 rounded-lg border border-vamos-navy-light">
+              <span className="text-5xl">🎙️</span>
+              <p className="text-2xl font-bold text-vamos-yellow">
+                Episode dropping soon
+              </p>
+              <p className="text-neutral-400 dark:text-slate-400 text-sm">
+                Subscribe on YouTube so you don&apos;t miss it
+              </p>
+            </div>
+          ) : (
+            <div className="mb-10">
+              <VideoEmbed videoUrl={embedUrl} title={episode.title} />
+            </div>
+          )}
           {content && (
             <>
               <h2 className="text-3xl font-bold mb-6 max-w-2xl mx-auto">
-                Show Notes
+                {episode.comingSoon ? "Sneak Peek" : "Show Notes"}
               </h2>
               <PostBody content={content} />
             </>
@@ -87,9 +129,28 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     return notFound();
   }
 
+  const thumbnail =
+    episode.thumbnail || getYouTubeThumbnail(episode.videoUrl) || undefined;
+
   return {
-    title: `${episode.title} | ${PODCAST_NAME}`,
+    title: episode.title,
     description: episode.description,
+    openGraph: {
+      type: "video.episode",
+      title: episode.title,
+      description: episode.description,
+      url: `${SITE_URL}/episodes/${episode.slug}`,
+      siteName: PODCAST_NAME,
+      ...(thumbnail && {
+        images: [{ url: thumbnail, width: 1280, height: 720, alt: episode.title }],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: episode.title,
+      description: episode.description,
+      ...(thumbnail && { images: [thumbnail] }),
+    },
   };
 }
 

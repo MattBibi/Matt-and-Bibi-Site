@@ -12,6 +12,7 @@ type Props = {
   thumbnail: string;
   slug: string;
   tags: string[];
+  comingSoon?: boolean;
 };
 
 export function HeroPost({
@@ -23,6 +24,7 @@ export function HeroPost({
   thumbnail,
   slug,
   tags,
+  comingSoon,
 }: Props) {
   const thumbSrc = thumbnail || getYouTubeThumbnail(videoUrl);
 
@@ -44,16 +46,24 @@ export function HeroPost({
                 <span className="text-neutral-400 dark:text-slate-500 text-6xl">▶</span>
               </div>
             )}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <span className="bg-black/60 text-white text-4xl w-16 h-16 rounded-full flex items-center justify-center pl-1">
-                ▶
-              </span>
-            </div>
+            {comingSoon ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                <span className="bg-vamos-yellow text-vamos-navy text-sm font-bold uppercase tracking-widest px-4 py-2 rounded-full">
+                  Coming Soon
+                </span>
+              </div>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <span className="bg-black/60 text-white text-4xl w-16 h-16 rounded-full flex items-center justify-center pl-1">
+                  ▶
+                </span>
+              </div>
+            )}
           </Link>
         </div>
         <div className="flex flex-col justify-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-vamos-yellow mb-2">
-            Latest Episode · Ep. {episodeNumber}
+            {comingSoon ? "Coming Soon" : "Latest Episode"} · Ep. {episodeNumber}
           </p>
           <h3 className="mb-4 text-4xl lg:text-5xl leading-tight">
             <Link href={`/episodes/${slug}`} className="hover:underline">

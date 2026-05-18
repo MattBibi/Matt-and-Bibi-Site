@@ -22,8 +22,8 @@ const config: Config = {
         cyan: "#79FFE1",
         "vamos-yellow": "#F0A830",
         "vamos-yellow-dark": "#D4921A",
-        "vamos-navy": "#1B2641",
-        "vamos-navy-light": "#243258",
+        "vamos-navy": "#111111",
+        "vamos-navy-light": "#1f1f1f",
       },
       spacing: {
         28: "7rem",

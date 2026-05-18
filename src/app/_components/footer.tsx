@@ -76,7 +76,6 @@ export function Footer() {
             links={{
               linkedin: "https://www.linkedin.com/in/matthewcarolan/",
               instagram: "https://www.instagram.com/themattcarolan/",
-              email: "matt@mattcarolan.net",
             }}
           />
           <div className="flex flex-col items-center gap-4">
@@ -91,7 +90,9 @@ export function Footer() {
               <h3 className="text-xl font-bold text-vamos-yellow tracking-tight">
                 Vamos! Tech Talks
               </h3>
-              <p className="text-white/60 text-sm mt-0.5">with Matt &amp; Bibi</p>
+              <p className="text-white/60 text-sm mt-0.5">
+                with Matt &amp; Bibi
+              </p>
             </div>
           </div>
           <HostColumn
@@ -100,7 +101,6 @@ export function Footer() {
               linkedin: "https://www.linkedin.com/in/bibschan/",
               instagram: "https://www.instagram.com/bibisouza_yvr/",
               twitter: "https://x.com/Bibi05089848",
-              email: "souzabibiana@hotmail.com",
             }}
           />
         </div>

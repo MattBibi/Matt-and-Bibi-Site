@@ -8,4 +8,5 @@ export type Episode = {
   thumbnail: string;
   tags: string[];
   content: string;
+  comingSoon?: boolean;
 };

@@ -23,6 +23,7 @@ export function MoreStories({ episodes }: Props) {
             thumbnail={episode.thumbnail}
             slug={episode.slug}
             tags={episode.tags}
+            comingSoon={episode.comingSoon}
           />
         ))}
       </div>

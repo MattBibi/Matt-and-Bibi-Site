@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ThemeSwitch } from "./theme-switcher";
 
 const Header = () => {
   return (
@@ -29,6 +30,7 @@ const Header = () => {
           >
             Episodes
           </Link>
+          <ThemeSwitch />
         </nav>
       </div>
     </header>

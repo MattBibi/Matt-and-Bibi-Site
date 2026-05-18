@@ -7,8 +7,9 @@ import { getAllEpisodes } from "@/lib/api";
 export default function Index() {
   const allEpisodes = getAllEpisodes();
 
-  const featuredEpisode = allEpisodes[0];
-  const remainingEpisodes = allEpisodes.slice(1);
+  const featuredEpisode =
+    allEpisodes.find((ep) => !ep.comingSoon) || allEpisodes[0];
+  const remainingEpisodes = allEpisodes.filter((ep) => ep !== featuredEpisode);
 
   return (
     <main>
@@ -23,6 +24,7 @@ export default function Index() {
           thumbnail={featuredEpisode.thumbnail}
           slug={featuredEpisode.slug}
           tags={featuredEpisode.tags}
+          comingSoon={featuredEpisode.comingSoon}
         />
         {remainingEpisodes.length > 0 && (
           <MoreStories episodes={remainingEpisodes} />

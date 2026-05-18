@@ -12,6 +12,7 @@ type Props = {
   thumbnail: string;
   slug: string;
   tags: string[];
+  comingSoon?: boolean;
 };
 
 export function PostPreview({
@@ -23,6 +24,7 @@ export function PostPreview({
   thumbnail,
   slug,
   tags,
+  comingSoon,
 }: Props) {
   const thumbSrc = thumbnail || getYouTubeThumbnail(videoUrl);
 
@@ -43,15 +45,23 @@ export function PostPreview({
               <span className="text-neutral-400 dark:text-slate-500 text-4xl">▶</span>
             </div>
           )}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <span className="bg-black/60 text-white text-3xl w-12 h-12 rounded-full flex items-center justify-center pl-1">
-              ▶
-            </span>
-          </div>
+          {comingSoon ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+              <span className="bg-vamos-yellow text-vamos-navy text-sm font-bold uppercase tracking-widest px-4 py-2 rounded-full">
+                Coming Soon
+              </span>
+            </div>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <span className="bg-black/60 text-white text-3xl w-12 h-12 rounded-full flex items-center justify-center pl-1">
+                ▶
+              </span>
+            </div>
+          )}
         </Link>
       </div>
       <p className="text-sm font-semibold uppercase tracking-widest text-vamos-yellow mb-1">
-        Ep. {episodeNumber}
+        {comingSoon ? "Coming Soon" : ""} Ep. {episodeNumber}
       </p>
       <h3 className="text-3xl mb-3 leading-snug">
         <Link href={`/episodes/${slug}`} className="hover:underline">

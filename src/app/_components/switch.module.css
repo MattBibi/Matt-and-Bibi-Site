@@ -1,8 +1,5 @@
 .switch {
   all: unset;
-  position: absolute;
-  right: 20px;
-  top: 70px;
   display: inline-block;
   color: currentColor;
   border-radius: 50%;
@@ -12,6 +9,7 @@
   height: var(--size);
   width: var(--size);
   transition: all 0.3s ease-in-out 0s !important;
+  flex-shrink: 0;
 }
 
 [data-mode="system"] .switch::after {
