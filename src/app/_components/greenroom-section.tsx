@@ -60,7 +60,7 @@ export function GreenroomSection() {
               </div>
             </div>
             <a
-              href="mailto:hello@vamostechtalks.com?subject=Guest%20Suggestion"
+              href="mailto:matthewandbibiana@gmail.com?subject=Guest%20Suggestion"
               className="inline-flex items-center gap-2 bg-vamos-yellow text-vamos-navy font-bold text-xs uppercase tracking-[0.15em] px-6 py-3 rounded-full hover:bg-vamos-yellow-dark transition-all duration-200 hover:scale-105"
             >
               Add to the Wishlist
