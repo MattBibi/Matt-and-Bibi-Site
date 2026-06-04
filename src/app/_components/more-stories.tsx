@@ -7,11 +7,11 @@ type Props = {
 
 export function MoreStories({ episodes }: Props) {
   return (
-    <section>
-      <h2 className="mb-8 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
+    <div className="mt-6">
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mb-6">
         All Episodes
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 lg:gap-x-32 gap-y-20 md:gap-y-32 mb-32">
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {episodes.map((episode) => (
           <PostPreview
             key={episode.slug}
@@ -27,6 +27,6 @@ export function MoreStories({ episodes }: Props) {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
