@@ -27,7 +27,7 @@ export default async function EpisodePage(props: Params) {
     name: episode.title,
     episodeNumber: episode.episodeNumber,
     description: episode.description,
-    datePublished: episode.date,
+    ...(episode.date && { datePublished: episode.date }),
     url: `${SITE_URL}/episodes/${episode.slug}`,
     partOfSeries: {
       "@type": "PodcastSeries",
